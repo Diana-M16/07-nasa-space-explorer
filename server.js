@@ -1,16 +1,25 @@
 // Load environment variables from .env file
+// Note: In Vercel, environment variables are set in project settings, not .env
 require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors());
-app.use(express.static(__dirname));
 app.use(express.json());
+
+// Serve static files from the root directory
+app.use(express.static(path.join(__dirname)));
+
+// Also explicitly serve common static files
+app.use('/img', express.static(path.join(__dirname, 'img')));
+app.use('/js', express.static(path.join(__dirname, 'js')));
+app.use('/style.css', (req, res) => res.sendFile(path.join(__dirname, 'style.css')));
 
 // API route to fetch APOD data
 // This proxies requests to NASA's API using the secure API key
