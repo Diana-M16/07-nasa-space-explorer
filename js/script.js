@@ -65,9 +65,10 @@ getImagesBtn.addEventListener('click', async () => {
   loadingMessage.style.display = 'flex'; // Show loading message
 
   try {
-    // Call our backend API to fetch APOD data securely
-    // The backend uses the NASA API key from the .env file
-    const response = await fetch(`/api/apod?startDate=${startDate}&endDate=${endDate}`);
+    // Fetch APOD data from NASA's API for the selected date range
+    const API_KEY = "Dg76HUlrpMl1ZHdiHbTIvFBCSHQOu8N3IAOqR0Zt"
+    const url = `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&start_date=${startDate}&end_date=${endDate}`;
+    const response = await fetch(url);
 
     if (!response.ok) {
       throw new Error(`Failed to fetch images: ${response.statusText}`);
